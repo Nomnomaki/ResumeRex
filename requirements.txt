@@ -3,7 +3,7 @@ pdfplumber
 pandas
 requests
 beautifulsoup4
-serpapi==0.1.4
+serpapi==0.1.5
 python-dotenv
 streamlit
 spacy 
