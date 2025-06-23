@@ -14,18 +14,18 @@ if not API_KEY:
 
 def normalize_location(location):
     """Normalize location format for better search results"""
-    if not location or location.strip().lower() in ["remote", "anywhere"]:
-        return "Remote"
+    # if not location or location.strip().lower() in ["remote", "anywhere"]:
+    #     return "Remote"
     
     location = location.strip()
     if "," in location:
         return location
     
-    # Add country if not specified
-    common_cities = ["mumbai", "delhi", "bangalore", "pune", "chennai", "hyderabad"]
-    if location.lower() in common_cities:
-        return f"{location}, India"
-    return location
+    # # Add country if not specified
+    # common_cities = ["mumbai", "delhi", "bangalore", "pune", "chennai", "hyderabad"]
+    # if location.lower() in common_cities:
+    #     return f"{location}, India"
+    # return location
 
 def search_jobs_from_skills(skills, location="Remote", max_results=10, use_and_logic=False):
     """Enhanced job search with better error handling and filtering"""
