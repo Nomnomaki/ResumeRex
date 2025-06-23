@@ -31,12 +31,11 @@ if uploaded_file:
         st.subheader("🧠 Keyword-Based Resume Summary")
         st.text(report)
 
-        # 🔥 Ask the user where they want job recommendations for
+        # Ask the user where they want job recommendations
         job_location = st.text_input("🌍 Enter Preferred Job Location (e.g., India, Remote, Mumbai)", value="Remote")
 
         if st.button("🔍 Find Matching Jobs"):
             with st.spinner("Searching for matching jobs..."):
-                # ✅ Limit keywords to top 6 before sending to search
                 filtered_keywords = keywords[:6]
 
                 st.info(f"🔍 Searching for: `{', '.join(filtered_keywords)}` in `{job_location}`")
