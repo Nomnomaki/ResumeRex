@@ -1,9 +1,8 @@
 import google.generativeai as genai
 from dotenv import load_dotenv
-load_dotenv()
-
-import google.generativeai as genai
 import os
+
+load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("models/gemini-2.5-flash-lite-preview-06-17")
@@ -17,6 +16,7 @@ def get_resume_feedback(resume_text):
     - Suggestions for improvement
     Resume:
     {resume_text}
+    (dont make it too detailed)
     """
     response = model.generate_content(prompt)
     return response.text
@@ -40,5 +40,3 @@ def generate_report(resume_text, keywords):
     summary = '.'.join(sentences[:3]).strip() + '.' if len(sentences) >= 3 else resume_text.strip()
     report = f"Resume Summary:\n{summary}\n\nTop Keywords ({len(keywords)}):\n- " + '\n- '.join(keywords)
     return report
-# for m in genai.list_models():
-#     print(m.name, m.supported_generation_methods)
