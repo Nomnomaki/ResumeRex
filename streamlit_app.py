@@ -70,7 +70,7 @@ with st.sidebar:
     st.header("⚙️ Settings")
     max_jobs = st.slider("Max jobs to find", 5, 25, 10)
     keyword_count = st.slider("Keywords to extract", 5, 20, 10)
-    search_logic = st.radio("Search logic", ["Smart (Recommended)", "Broad (OR)", "Precise (AND)"])
+  
     
     st.header("📊 Quick Stats")
     if st.session_state.resume_processed:
@@ -213,7 +213,7 @@ if st.session_state.resume_processed:
                     final_keywords = search_keywords[:8]
                     
                     # Determine search logic
-                    use_and = search_logic == "Precise (AND)"
+                    # use_and = search_logic == "Precise (AND)"
                     
                     st.info(f"🔍 Searching for: `{', '.join(final_keywords)}` in `{job_location}`")
 
@@ -234,11 +234,11 @@ if st.session_state.resume_processed:
                         # Display jobs
                         st.subheader("💼 Job Matches")
                         
-                        # Sort jobs by relevance if relevance_score exists
-                        try:
-                            jobs.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
-                        except (TypeError, KeyError):
-                            pass  # Keep original order if sorting fails
+                        # # Sort jobs by relevance if relevance_score exists
+                        # try:
+                        #     jobs.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
+                        # except (TypeError, KeyError):
+                        #     pass  # Keep original order if sorting fails
                         
                         for i, job in enumerate(jobs):
                             # Debug: Print job structure to understand the data format
@@ -251,7 +251,7 @@ if st.session_state.resume_processed:
                                 location = job.get('location') or job.get('job_location') or job.get('place') or 'Location TBD'
                                 posted = job.get('posted') or job.get('date_posted') or job.get('posted_date') or 'Recently'
                                 apply_link = job.get('apply_link') or job.get('url') or job.get('link') or '#'
-                                relevance = job.get('relevance_score', 0)
+                               
                                 matched_skills = job.get('matched_skills') or job.get('skills') or 'Skills matching resume'
                             else:
                                 # If job is not a dict, try to handle it as a string or other format
@@ -260,20 +260,10 @@ if st.session_state.resume_processed:
                                 location = 'Unknown Location'
                                 posted = 'Unknown Date'
                                 apply_link = '#'
-                                relevance = 0
+                        
                                 matched_skills = 'N/A'
                             
-                            # Determine relevance class for styling
-                            if relevance >= 70:
-                                relevance_class = "relevance-high"
-                                relevance_emoji = "🟢"
-                            elif relevance >= 40:
-                                relevance_class = "relevance-medium" 
-                                relevance_emoji = "🟡"
-                            else:
-                                relevance_class = "relevance-low"
-                                relevance_emoji = "🔴"
-                            
+                       
                             # Use Streamlit components instead of HTML for better compatibility
                             with st.container():
                                 # Create a styled container using columns
@@ -284,7 +274,7 @@ if st.session_state.resume_processed:
                                     st.write(f"**🏢 Company:** {company}")
                                     st.write(f"**📍 Location:** {location}")
                                     st.write(f"**📅 Posted:** {posted}")
-                                    st.write(f"**🎯 Match:** {relevance_emoji} {relevance}% | **Skills:** {matched_skills}")
+                                    
                                 
                                 with col2:
                                     if apply_link != '#':
