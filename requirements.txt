@@ -1,0 +1,8 @@
+pdfplumber
+pandas
+requests
+beautifulsoup4
+serpapi
+python-dotenv
+streamlit
+spacy 
