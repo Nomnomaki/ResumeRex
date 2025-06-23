@@ -1,30 +1,26 @@
 import os
 import csv
-from serpapi import GoogleSearch
+import serpapi
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
-api_key = os.getenv("SERPAPI_API_KEY")
+serpapi.api_key = os.getenv("SERPAPI_API_KEY")  # set the API key here
 
 def search_jobs_from_skills(skills, location="India", max_results=10):
-    # ✅ Limit skills to top 6 to avoid long query
     cleaned_skills = [skill.strip() for skill in skills if skill.strip()][:6]
     query = " OR ".join(cleaned_skills)
-    location = location.strip().split(",")[0]  # Only keep city name if comma
-
-    print(f"\n[DEBUG] Searching jobs for query: '{query}' in location: '{location}'\n")
+    location = location.strip().split(",")[0]
 
     params = {
         "engine": "google_jobs",
         "q": query,
         "location": location,
         "hl": "en",
-        "api_key": api_key
+        "api_key": serpapi.api_key
     }
 
     try:
-        search = GoogleSearch(params)
+        search = serpapi.GoogleSearch(params)
         results = search.get_dict()
 
         jobs = results.get("jobs_results", [])
@@ -32,7 +28,7 @@ def search_jobs_from_skills(skills, location="India", max_results=10):
             print("[INFO] No jobs found for this query.")
             return []
 
-        # Save to CSV
+        # Save to CSV and prepare jobs list as before
         csv_file = "matched_jobs.csv"
         with open(csv_file, mode="w", newline='', encoding="utf-8") as file:
             writer = csv.writer(file)
@@ -46,7 +42,6 @@ def search_jobs_from_skills(skills, location="India", max_results=10):
                 loc = job.get("location", "N/A")
                 posted = job.get("detected_extensions", {}).get("posted_at", "N/A")
 
-                # ✅ Extract apply link
                 apply_link = "N/A"
                 if "apply_options" in job and job["apply_options"]:
                     apply_link = job["apply_options"][0].get("link", "N/A")
